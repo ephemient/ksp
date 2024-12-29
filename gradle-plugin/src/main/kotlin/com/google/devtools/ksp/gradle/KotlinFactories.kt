@@ -168,12 +168,7 @@ class KotlinFactories {
                     )
                     kspTask.produceUnpackagedKlib.set(false)
                     kspTask.onlyIf {
-                        // KonanTarget is not properly serializable, hence we should check by name
-                        // see https://youtrack.jetbrains.com/issue/KT-61657.
-                        val konanTargetName = kspTask.konanTarget.name
-                        HostManager().enabled.any {
-                            it.name == konanTargetName
-                        }
+                        kotlinCompilation.compileTaskProvider.get().isEnabled
                     }
                 }
             }

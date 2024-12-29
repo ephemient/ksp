@@ -281,13 +281,8 @@ abstract class KspAATask @Inject constructor(
 
                     cfg.platformType.value(kotlinCompilation.platformType)
                     if (kotlinCompilation is KotlinNativeCompilation) {
-                        val konanTargetName = kotlinCompilation.target.konanTarget.name
-                        cfg.konanTargetName.value(konanTargetName)
-                        cfg.konanHome.value((kotlinCompileProvider.get() as KotlinNativeCompile).konanHome)
                         kspAATask.onlyIf {
-                            HostManager().enabled.any {
-                                it.name == konanTargetName
-                            }
+                            kotlinCompilation.compileTaskProvider.get().isEnabled
                         }
                     }
 
